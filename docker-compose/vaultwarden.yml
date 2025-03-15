@@ -9,7 +9,7 @@ services:
       - no-new-privileges:true
     environment:
       # Domain is required for HTTPS verification
-      DOMAIN: "https://vw.domain.tld"
+      DOMAIN: $DOMAIN
       # Optional: Disable registration for improved security
       SIGNUPS_ALLOWED: "false"
       # Optional: Disable admin page in production
@@ -19,7 +19,7 @@ services:
     volumes:
       - $PWD/vaultwarden/data/:/data/
     ports:
-      - 8080:80  # Changed to avoid conflicts with other services using port 80
+      - $VAULTWARDEN__PORT:80  # Changed to avoid conflicts with other services using port 80
     networks:
       - vaultwarden_network
 
@@ -45,6 +45,9 @@ networks:
     driver: bridge
 
 
+#################################################################
+#    .env parameters : PWD, DOMAIN, VAULTWARDEN__PORT           #
+#################################################################
 #################################################################
 #                  backup is very important                     #  
 #################################################################
