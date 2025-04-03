@@ -1,0 +1,20 @@
+version: "3.2"
+services:
+  picoshare:
+    image: mtlynch/picoshare
+    environment:
+      - PORT=4001
+      - PS_SHARED_SECRET=${PICO_SHARE_PASSWORD}
+    ports:
+      - 4001:4001
+    command: -db /data/store.db
+    volumes:
+      - ${DATA_DIR}:/data
+
+
+
+--------------
+.env
+--------------
+PICO_SHARE_PASSWORD=
+DATA_DIR=
