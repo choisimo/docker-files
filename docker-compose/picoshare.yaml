@@ -26,5 +26,5 @@ services:
 --------------
 .env
 --------------
-PICO_SHARE_PASSWORD=
-DATA_DIR=
+PICO_SHARE_PASSWORD=비밀번호 설정
+DATA_DIR=데이터 저장할 디렉토리 입력
