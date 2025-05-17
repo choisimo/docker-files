@@ -91,3 +91,21 @@ networks:
     restart: always
     ports:
       - 3090:8080
+
+
+
+# #  mariadb_backup
+# FROM mariadb:latest
+
+# # 백업 스크립트 설치
+# RUN apt-get update && apt-get install -y cron
+
+# # 백업 스크립트 생성
+# COPY backup.sh /usr/local/bin/
+# RUN chmod +x /usr/local/bin/backup.sh
+
+# # 크론 작업 설정
+# RUN echo "0 0 * * * /usr/local/bin/backup.sh" > /etc/cron.d/db-backup
+# RUN chmod 0644 /etc/cron.d/db-backup
+
+# CMD ["cron", "-f"]
