@@ -12,7 +12,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${password}
     volumes:
       - ../init/mongo-init.js:/docker-entrypoint-initdb.d/init.js
-      - ./mongo-keyfile:/etc/mongo/mongo-keyfile
+      - ../data/init-keyfile.sh:/docker-entrypoint-initdb.d/init-keyfile.sh:ro
       - mongodata:/data/db
     command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo/mongo-keyfile"]
 
