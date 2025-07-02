@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${username}
+      MONGO_INITDB_ROOT_PASSWORD: ${password}
+    volumes:
+      - ./init.js:/docker-entrypoint-initdb.d/init.js
+      - ./mongo-keyfile:/etc/mongo/mongo-keyfile
+      - mongodata:/data/db
+    command: ["--replSet", "rs0", "--bind_ip_all", "--keyFile", "/etc/mongo/mongo-keyfile"]
+
+volumes:
+  mongodata:
+    driver: local
