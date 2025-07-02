@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-KEYFILE_PATH="/etc/mongo/mongo-keyfile"
+KEYFILE_PATH="mongodb/mongo-keyfile"
 
 # keyfile이 없으면 생성
 if [ ! -f "$KEYFILE_PATH" ]; then
