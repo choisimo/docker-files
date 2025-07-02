@@ -5,6 +5,7 @@
 
 # Sensitive files
 mongo-keyfile
+**/mongo-keyfile
 
 # Local data directories
 .n8n/
