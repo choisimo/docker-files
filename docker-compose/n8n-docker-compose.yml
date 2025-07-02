@@ -1,4 +1,3 @@
-version: "3"
 services:
   n8n:
     image: n8nio/n8n:latest
@@ -10,5 +9,14 @@ services:
       - N8N_BASIC_AUTH_PASSWORD=${password}
       - N8N_HOST=localhost
       - WEBHOOK_TUNNEL_URL=http://localhost:5678/
-    volumes:
-      - .n8n:/home/node/.n8n
+      - N8N_DATA_FOLDER=/tmp
+    networks:
+      - nodove-net
+
+volumes:
+  n8n_data:
+    driver: local
+
+networks:
+  nodove-net:
+    external: true
