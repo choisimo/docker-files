@@ -1,1 +1,12 @@
 .env
+.n8n
+*.env
+**/*.env
+
+# Sensitive files
+mongo-keyfile
+
+# Local data directories
+.n8n/
+mongodata/
+
