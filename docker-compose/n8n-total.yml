@@ -24,6 +24,7 @@ services:
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_PERSONALIZATION_ENABLED=false
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-your-encryption-key}
+      - WEBHOOK_URL=${WEBHOOK_URL}
       # Redis 캐싱 설정
       - QUEUE_BULL_REDIS_HOST=redis
       - QUEUE_BULL_REDIS_PORT=6379
@@ -69,7 +70,7 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - ${REDIS_PORT:-6379}:6379
+      - 6380:6379
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redispass}
     volumes:
       - redis_storage:/data

@@ -8,7 +8,7 @@ services:
       - N8N_BASIC_AUTH_USER=${username}
       - N8N_BASIC_AUTH_PASSWORD=${password}
       - N8N_HOST=localhost
-      - WEBHOOK_TUNNEL_URL=http://localhost:5678/
+      - WEBHOOK_TUNNEL_URL=https://4863-175-202-19-10.ngrok-free.app/
       - N8N_DATA_FOLDER=/tmp
     networks:
       - nodove-net
