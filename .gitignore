@@ -1,7 +1,6 @@
 .env
 .n8n
-*.env
-**/*.env
+**/.env
 
 # Sensitive files
 mongo-keyfile

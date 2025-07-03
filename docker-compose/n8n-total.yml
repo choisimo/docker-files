@@ -239,32 +239,32 @@ services:
       - redis_insight_storage:/db
     networks:
       - n8n-stack
-
-  # ===================
-  # 리버스 프록시 (선택사항)
-  # ===================
-  nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: nginx-proxy-manager
-    restart: unless-stopped
-    ports:
-      - ${NPM_HTTP_PORT:-80}:80
-      - ${NPM_HTTPS_PORT:-443}:443
-      - ${NPM_ADMIN_PORT:-81}:81
-    environment:
-      - DB_MYSQL_HOST=npm-db
-      - DB_MYSQL_PORT=3306
-      - DB_MYSQL_USER=${NPM_DB_USER:-npm}
-      - DB_MYSQL_PASSWORD=${NPM_DB_PASSWORD:-npm}
-      - DB_MYSQL_NAME=${NPM_DB_NAME:-npm}
-    volumes:
-      - npm_data:/data
-      - npm_ssl:/etc/letsencrypt
-    depends_on:
-      - npm-db
-    networks:
-      - n8n-stack
-
+#
+#  # ===================
+#  # 리버스 프록시 (선택사항)
+#  # ===================
+#  nginx-proxy-manager:
+#    image: jc21/nginx-proxy-manager:latest
+#    container_name: nginx-proxy-manager
+#    restart: unless-stopped
+#    ports:
+#      - ${NPM_HTTP_PORT:-80}:80
+#      - ${NPM_HTTPS_PORT:-443}:443
+#      - ${NPM_ADMIN_PORT:-81}:81
+#    environment:
+#      - DB_MYSQL_HOST=npm-db
+#      - DB_MYSQL_PORT=3306
+#      - DB_MYSQL_USER=${NPM_DB_USER:-npm}
+#      - DB_MYSQL_PASSWORD=${NPM_DB_PASSWORD:-npm}
+#      - DB_MYSQL_NAME=${NPM_DB_NAME:-npm}
+#    volumes:
+#      - npm_data:/data
+#      - npm_ssl:/etc/letsencrypt
+#    depends_on:
+#      - npm-db
+#    networks:
+#      - n8n-stack
+#
   npm-db:
     image: mariadb:latest
     container_name: npm-db
