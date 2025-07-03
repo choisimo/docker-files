@@ -9,7 +9,7 @@ services:
     container_name: n8n
     restart: unless-stopped
     ports:
-      - 5678:5678
+      - ${N8N_PORT:-5678}:5678
     environment:
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=postgres
@@ -50,7 +50,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-n8npass}
       - POSTGRES_DB=${POSTGRES_DB:-n8n}
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT:-5432}:5432
     volumes:
       - postgres_storage:/var/lib/postgresql/data
     healthcheck:
@@ -69,7 +69,7 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - 6379:6379
+      - ${REDIS_PORT:-6379}:6379
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redispass}
     volumes:
       - redis_storage:/data
@@ -89,7 +89,7 @@ services:
     container_name: mongodb
     restart: unless-stopped
     ports:
-      - 27017:27017
+      - ${MONGODB_PORT:-27017}:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER:-mongouser}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-mongopass}
@@ -106,7 +106,7 @@ services:
     container_name: qdrant
     restart: unless-stopped
     ports:
-      - 6333:6333
+      - ${QDRANT_PORT:-6333}:6333
     environment:
       - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY:-qdrantkey}
     volumes:
@@ -122,7 +122,7 @@ services:
     container_name: elasticsearch
     restart: unless-stopped
     ports:
-      - 9200:9200
+      - ${ELASTICSEARCH_PORT:-9200}:9200
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
@@ -141,8 +141,8 @@ services:
     container_name: minio
     restart: unless-stopped
     ports:
-      - 9000:9000
-      - 9001:9001
+      - ${MINIO_API_PORT:-9000}:9000
+      - ${MINIO_CONSOLE_PORT:-9001}:9001
     environment:
       - MINIO_ROOT_USER=${MINIO_USER:-minioadmin}
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:-minioadmin}
@@ -160,8 +160,8 @@ services:
     container_name: rabbitmq
     restart: unless-stopped
     ports:
-      - 5672:5672
-      - 15672:15672
+      - ${RABBITMQ_PORT:-5672}:5672
+      - ${RABBITMQ_MANAGEMENT_PORT:-15672}:15672
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-admin}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS:-adminpass}
@@ -178,7 +178,7 @@ services:
     container_name: prometheus
     restart: unless-stopped
     ports:
-      - 9090:9090
+      - ${PROMETHEUS_PORT:-9090}:9090
     volumes:
       - prometheus_storage:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
@@ -195,7 +195,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - ${GRAFANA_PORT:-3000}:3000
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafanapass}
     volumes:
@@ -211,9 +211,9 @@ services:
     container_name: pgadmin
     restart: unless-stopped
     ports:
-      - 5050:80
+      - ${PGADMIN_PORT:-5050}:80
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin @example.com}
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@example.com}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-adminpass}
     volumes:
       - pgadmin_storage:/var/lib/pgadmin
@@ -225,7 +225,7 @@ services:
     container_name: adminer
     restart: unless-stopped
     ports:
-      - 8080:8080
+      - ${ADMINER_PORT:-8080}:8080
     networks:
       - n8n-stack
 
@@ -234,7 +234,7 @@ services:
     container_name: redis-insight
     restart: unless-stopped
     ports:
-      - 8001:8001
+      - ${REDIS_INSIGHT_PORT:-8001}:8001
     volumes:
       - redis_insight_storage:/db
     networks:
@@ -248,15 +248,15 @@ services:
     container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
-      - 80:80
-      - 443:443
-      - 81:81
+      - ${NPM_HTTP_PORT:-80}:80
+      - ${NPM_HTTPS_PORT:-443}:443
+      - ${NPM_ADMIN_PORT:-81}:81
     environment:
       - DB_MYSQL_HOST=npm-db
       - DB_MYSQL_PORT=3306
-      - DB_MYSQL_USER=npm
-      - DB_MYSQL_PASSWORD=npm
-      - DB_MYSQL_NAME=npm
+      - DB_MYSQL_USER=${NPM_DB_USER:-npm}
+      - DB_MYSQL_PASSWORD=${NPM_DB_PASSWORD:-npm}
+      - DB_MYSQL_NAME=${NPM_DB_NAME:-npm}
     volumes:
       - npm_data:/data
       - npm_ssl:/etc/letsencrypt
@@ -270,10 +270,10 @@ services:
     container_name: npm-db
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=npm
-      - MYSQL_DATABASE=npm
-      - MYSQL_USER=npm
-      - MYSQL_PASSWORD=npm
+      - MYSQL_ROOT_PASSWORD=${NPM_DB_ROOT_PASSWORD:-npm}
+      - MYSQL_DATABASE=${NPM_DB_NAME:-npm}
+      - MYSQL_USER=${NPM_DB_USER:-npm}
+      - MYSQL_PASSWORD=${NPM_DB_PASSWORD:-npm}
     volumes:
       - npm_db_storage:/var/lib/mysql
     networks:
