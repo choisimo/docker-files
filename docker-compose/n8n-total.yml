@@ -28,6 +28,7 @@ services:
       # Redis 캐싱 설정
       - QUEUE_BULL_REDIS_HOST=redis
       - QUEUE_BULL_REDIS_PORT=6379
+      - N8N_DISABLE_CREDITS=true
     volumes:
       - n8n_storage:/home/node/.n8n
       - ./n8n_files:/files
@@ -277,6 +278,19 @@ services:
       - MYSQL_PASSWORD=${NPM_DB_PASSWORD:-npm}
     volumes:
       - npm_db_storage:/var/lib/mysql
+    networks:
+      - n8n-stack
+
+# firecrawl
+  firecrawl:  
+    image: firecrawl/firecrawl
+    ports:
+      - "3002:3000"
+    environment:
+    - API_BEARER_TOKEN=${API_BEARER_TOKEN}  
+    - ANOTHER_VARIABLE=${ANOTHER_VARIABLE}
+    restart: always
+    container_name: firecrawl
     networks:
       - n8n-stack
 
