@@ -52,4 +52,4 @@ RUN mkdir -p /home/${USER}/.m2 /home/${USER}/.gradle && \
 
 EXPOSE 8080 5005
 
-CMD ["bash"]
+CMD ["sleep", "infinity"]

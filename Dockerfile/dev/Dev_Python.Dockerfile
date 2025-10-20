@@ -57,4 +57,4 @@ ENV MPLCONFIGDIR=/home/${USER}/.config/matplotlib
 
 EXPOSE 8888 6006
 
-CMD ["bash"]
+CMD ["sleep", "infinity"]

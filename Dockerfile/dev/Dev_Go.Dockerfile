@@ -39,4 +39,4 @@ ENV GO111MODULE=on
 
 EXPOSE 8080
 
-CMD ["bash"]
+CMD ["sleep", "infinity"]

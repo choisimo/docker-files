@@ -44,4 +44,4 @@ RUN mkdir -p /home/${USER}/.npm-global && npm config set prefix /home/${USER}/.n
 
 EXPOSE 3000 5173
 
-CMD ["bash"]
+CMD ["sleep", "infinity"]

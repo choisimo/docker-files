@@ -35,4 +35,4 @@ ENV RUST_BACKTRACE=1
 
 EXPOSE 8081
 
-CMD ["bash"]
+CMD ["sleep", "infinity"]
