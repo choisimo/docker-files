@@ -34,6 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     zip \
     xz-utils \
+    bash \
     openssh-client \
     # JDK for Android build
     openjdk-17-jdk \
@@ -49,23 +50,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Android SDK commandline tools
 RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools /tmp/sdk && \
     cd /tmp/sdk && \
-    curl -fsSL https:dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cmdtools.zip && \
-    mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
+    curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cmdtools.zip && \
     unzip -q cmdtools.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    rm -rf ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
     mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
     rm -rf /tmp/sdk
 
 # Update SDK, install required packages, and accept licenses
-RUN yes | sdkmanager --licenses || true && \
-    sdkmanager --update && \
-    sdkmanager \
+RUN yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses || true && \
+    ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --update && \
+    ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} \
       "cmdline-tools;latest" \
       "platform-tools" \
       "platforms;android-34" \
       "build-tools;34.0.0"
 
 # Install Flutter SDK (stable) and precache artifacts
-RUN git clone https:github.com/flutter/flutter.git -b stable ${FLUTTER_HOME} && \
+RUN git clone https://github.com/flutter/flutter.git -b stable ${FLUTTER_HOME} && \
     flutter config --no-analytics && \
     flutter precache --android --linux --web && \
     flutter doctor -v

@@ -1,0 +1,23 @@
+services:
+  dev-rust:
+    build:
+      context: ..
+      dockerfile: Dockerfile/dev/Dev_Rust.Dockerfile
+    container_name: dev-rust
+    ports:
+      - "8081:8081"
+    volumes:
+      - type: bind
+        source: ../workspace
+        target: /workspace
+      - cargo-registry:/home/rust/.cargo/registry
+      - cargo-git:/home/rust/.cargo/git
+      - cargo-bin:/home/rust/.cargo/bin
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+
+volumes:
+  cargo-registry:
+  cargo-git:
+  cargo-bin:
