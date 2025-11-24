@@ -1,0 +1,46 @@
+services:
+  # 1. Cloudflare Tunnel - 유일한 외부 통로
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    # .env 파일에서 TUNNEL_TOKEN 값을 읽어와 터널을 실행합니다.
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    networks:
+      - secure-network
+
+  # 2. 임베딩 모델 서버
+  embedding-server:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.8
+    container_name: embedding-server
+    restart: unless-stopped
+    # 'expose'를 사용해 내부 네트워크에만 포트를 공개합니다 (보안 강화)
+    expose:
+      - "80"
+    networks:
+      - secure-network
+
+  # 3. ChromaDB 벡터 데이터베이스
+  chromadb:
+    image: chromadb/chroma
+    container_name: chromadb
+    restart: unless-stopped
+    expose:
+      - "8000"
+    networks:
+      - secure-network
+
+  # 4. 주 애플리케이션 (opencode-serve)
+  opencode-serve:
+    image: opencode-serve:latest
+    container_name: opencode-serve
+    restart: unless-stopped
+    expose:
+      - "7012"
+    networks:
+      - secure-network
+
+# 모든 컨테이너가 통신할 내부 네트워크
+networks:
+  secure-network:
+    driver: bridge

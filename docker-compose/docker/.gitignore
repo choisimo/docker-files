@@ -1,2 +1,7 @@
 conf.d/
+!conf.d/ai-serve.nodove.com
+!conf.d/ai-serve.nodove.com.conf
 test-git.sh
+ssl/
+logs/
+docker.yml
